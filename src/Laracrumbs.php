@@ -111,7 +111,7 @@ class Laracrumbs
     private function breadcrumbShouldByUnique($name)
     {
         if (array_key_exists($name, $this->crumbs)) {
-            throw new BreadcrumbDoesNotExists();
+            throw new BreadcrumbAlreadyExists("{$name} breadcrumb already exists.");
         }
     }
 
@@ -124,7 +124,7 @@ class Laracrumbs
     private function breadcrumbShouldExists($name)
     {
         if (! array_key_exists($name, $this->crumbs)) {
-            throw new BreadcrumbAlreadyExists();
+            throw new BreadcrumbDoesNotExists("{$name} breadcrumb doesn't exists.");
         }
     }
 
@@ -136,13 +136,25 @@ class Laracrumbs
      */
     private function parseParameters($parameters)
     {
+        $firstParamIsName = true;
+
         if (is_array(head($parameters)) || count($parameters) === 0) {
             $name = $this->router->get();
-        } else {
+
+            $firstParamIsName = false;
+        } else if (is_string(head($parameters))) {
             $name = head($parameters);
+        } else {
+            $name = $this->router->get();
+
+            $firstParamIsName = false;
         }
 
-        $data = array_slice($parameters, 1);
+        if ($firstParamIsName) {
+            $data = array_slice($parameters, 1);
+        } else {
+            $data = $parameters;
+        }
 
         if (is_array(head($data))) {
             $data = head($data);
