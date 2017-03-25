@@ -2,8 +2,8 @@
 
 namespace dees040\Laracrumbs;
 
-use App\Library\Laracrumbs\Exceptions\BreadcrumbAlreadyExists;
-use App\Library\Laracrumbs\Exceptions\BreadcrumbDoesNotExists;
+use dees040\Laracrumbs\Exceptions\BreadcrumbAlreadyExists;
+use dees040\Laracrumbs\Exceptions\BreadcrumbDoesNotExists;
 
 class Laracrumbs
 {
